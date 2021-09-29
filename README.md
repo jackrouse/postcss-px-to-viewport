@@ -1,9 +1,11 @@
-# postcss-px-to-viewport
+# postcss-px-to-viewport-extra
 [![NPM version](https://badge.fury.io/js/postcss-px-to-viewport.svg)](http://badge.fury.io/js/postcss-px-to-viewport)
 
 English | [中文](README_CN.md) 
 
 A plugin for [PostCSS](https://github.com/postcss/postcss) that generates viewport units (vw, vh, vmin, vmax) from pixel units.
+
+# Modified on the basis of postcss-px-to-viewport, viewportWidth prop support function type
 
 ## Demo
 
@@ -74,11 +76,11 @@ If your project involves a fixed width, this script will help to convert pixels 
 ### Installation
 Add via npm
 ```
-$ npm install postcss-px-to-viewport --save-dev
+$ npm install postcss-px-to-viewport-extra --save-dev
 ```
 or yarn
 ```
-$ yarn add -D postcss-px-to-viewport
+$ yarn add -D postcss-px-to-viewport-extra
 ```
 
 ### Usage
@@ -88,6 +90,14 @@ Default Options:
 {
   unitToConvert: 'px',
   viewportWidth: 320,
+  // or
+  viewportWidth: (file) => {
+    if (file.search(/node_modules(\\|\/)vant/) > -1) {
+      return 375
+    } else {
+      return 750
+    }
+  },
   unitPrecision: 5,
   propList: ['*'],
   viewportUnit: 'vw',
@@ -104,7 +114,7 @@ Default Options:
 }
 ```
 - `unitToConvert` (String) unit to convert, by default, it is px.
-- `viewportWidth` (Number) The width of the viewport.
+- `viewportWidth` (Number|Function) The width of the viewport.
 - `unitPrecision` (Number) The decimal numbers to allow the vw units to grow to.
 - `propList` (Array) The properties that can change from px to vw.
   - Values need to be exact matches.
